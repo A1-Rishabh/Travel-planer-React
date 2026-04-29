@@ -1,13 +1,33 @@
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import './DestinationCard.css';
 
-export default function DestinationCard({ destination, onSelect }) {
+export default function DestinationCard({ destination, onSelect, index = 0 }) {
+  const [imageLoaded, setImageLoaded] = useState(false);
   const { name, country, image, price, duration, rating, tags, description, featured } = destination;
 
   return (
-    <div className={`dest-card ${featured ? 'dest-card--featured' : ''}`} onClick={() => onSelect?.(destination)}>
+    <motion.div
+      className={`dest-card ${featured ? 'dest-card--featured' : ''}`}
+      onClick={() => onSelect?.(destination)}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, delay: index * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
+      whileHover={{ y: -6 }}
+    >
       <div className="dest-card__image-wrap">
-        <img src={image} alt={name} loading="lazy" className="dest-card__image" />
+        {/* Skeleton shimmer */}
+        {!imageLoaded && <div className="dest-card__skeleton" />}
+
+        <img
+          src={image}
+          alt={name}
+          loading="lazy"
+          className={`dest-card__image ${imageLoaded ? 'dest-card__image--loaded' : ''}`}
+          onLoad={() => setImageLoaded(true)}
+        />
         <div className="dest-card__overlay" />
+
         {featured && <span className="dest-card__badge">Featured</span>}
         <div className="dest-card__rating">
           <span className="dest-card__star">★</span>
@@ -42,6 +62,6 @@ export default function DestinationCard({ destination, onSelect }) {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
