@@ -27,7 +27,7 @@ export default function Navbar() {
 
         <Link to="/" className="navbar__logo">
           <span className="navbar__logo-mark">✦</span>
-          <span className="navbar__logo-text">VOYA</span>
+          <span className="navbar__logo-text">MOrd</span>
         </Link>
 
         <ul className="navbar__links">
